@@ -8,37 +8,29 @@
 
   <style>
     :root {
-      --bg: #f4f4f4;
-      --text: #333;
-      --header-bg: #2c3e50;
-      --nav-bg: #1abc9c;
-      --link: white;
-      --card-bg: white;
-      --hover: #16a085;
+      --main-color: #1abc9c;
+      --hover-color: #16a085;
+      --bg-light: #f4f4f4;
+      --bg-dark: #1a1a1a;
+      --text-light: #333;
+      --text-dark: #f0f0f0;
+      --card-bg-light: white;
+      --card-bg-dark: #2a2a2a;
     }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #1a1a1a;
-        --text: #f0f0f0;
-        --header-bg: #121212;
-        --nav-bg: #0e7e6d;
-        --link: #ffffff;
-        --card-bg: #2a2a2a;
-        --hover: #1abc9c;
-      }
+    body.light {
+      background: var(--bg-light);
+      color: var(--text-light);
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
+    body.dark {
+      background: var(--bg-dark);
+      color: var(--text-dark);
     }
 
     header {
-      background: var(--header-bg);
-      color: var(--link);
+      background: #2c3e50;
+      color: white;
       padding: 30px 20px;
       text-align: center;
       position: relative;
@@ -56,13 +48,13 @@
     }
 
     nav {
-      background: var(--nav-bg);
+      background: var(--main-color);
       padding: 10px 0;
       text-align: center;
     }
 
     nav a {
-      color: var(--link);
+      color: white;
       margin: 0 15px;
       text-decoration: none;
       font-weight: bold;
@@ -79,23 +71,19 @@
     }
 
     h2 {
-      color: var(--header-bg);
+      color: #2c3e50;
     }
 
     .card {
-      background: var(--card-bg);
+      background: white;
       padding: 20px;
       margin-top: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    footer {
-      background: var(--header-bg);
-      color: var(--link);
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
+    body.dark .card {
+      background: var(--card-bg-dark);
     }
 
     .social-icons {
@@ -107,29 +95,37 @@
     }
 
     .social-icons a {
-      color: var(--link);
+      color: white;
       font-size: 1.4em;
       transition: color 0.3s;
     }
 
     .social-icons a:hover {
-      color: var(--hover);
+      color: var(--hover-color);
     }
 
-    a.button {
-      background: var(--nav-bg);
-      color: white;
-      padding: 10px 15px;
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    select, button {
+      padding: 6px 10px;
       border-radius: 5px;
-      text-decoration: none;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    a.button:hover {
-      background: var(--hover);
-    }
-
-    a {
-      transition: all 0.3s ease;
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
     }
 
     @media screen and (max-width: 600px) {
@@ -143,13 +139,12 @@
   </style>
 </head>
 
-<body>
+<body class="light">
   <header>
     <img src="profil.jpg" alt="Profil Fotoğrafı" class="profile-pic" />
     <h1>Muhammed Eren Balıbey</h1>
-    <p>
-      Makine Mühendisliği Öğrencisi | 
-      <a href="https://w3.agu.edu.tr/" target="_blank" style="color: var(--link); text-decoration: none;">
+    <p id="uni-text">Makine Mühendisliği Öğrencisi | 
+      <a href="https://w3.agu.edu.tr/" target="_blank" style="color: white; text-decoration: none;">
         Abdullah Gül Üniversitesi
       </a>
     </p>
@@ -159,35 +154,46 @@
       <a href="https://github.com/erenbalibey" target="_blank"><i class="fab fa-github"></i></a>
       <a href="https://www.instagram.com/erenblby/?hl=tr" target="_blank"><i class="fab fa-instagram"></i></a>
     </div>
+    <div class="controls">
+      <button onclick="toggleTheme()">🌙 / ☀️ Tema Değiştir</button>
+      <select onchange="changeColor(this.value)">
+        <option value="#1abc9c">Yeşil</option>
+        <option value="#3498db">Mavi</option>
+        <option value="#e74c3c">Kırmızı</option>
+        <option value="#9b59b6">Mor</option>
+      </select>
+      <select onchange="changeLanguage(this.value)">
+        <option value="tr">Türkçe</option>
+        <option value="en">English</option>
+      </select>
+    </div>
   </header>
 
   <nav>
-    <a href="#about">Hakkımda</a>
-    <a href="#internships">Stajlar</a>
+    <a href="#about" id="nav-about">Hakkımda</a>
+    <a href="#internships" id="nav-intern">Stajlar</a>
   </nav>
 
   <section id="about">
-    <h2>Hakkımda</h2>
-    <div class="card">
-      <p>
-        Ben Muhammed Eren Balıbey. Abdullah Gül Üniversitesi Makine Mühendisliği öğrencisiyim. Üretim, kalite kontrol, malzeme bilimi ve süreç mühendisliği konularında akademik ve endüstriyel deneyime sahibim. Ejot Tezmak firmasında gerçekleştirdiğim stajımda üretimin farklı aşamalarında aktif olarak görev aldım. Endüstride teorik bilginin nasıl uygulandığını gözlemleyerek kendimi bu alanda geliştirdim.
-      </p>
+    <h2 id="about-title">Hakkımda</h2>
+    <div class="card" id="about-text">
+      <p>Ben Muhammed Eren Balıbey. Abdullah Gül Üniversitesi Makine Mühendisliği öğrencisiyim. Üretim, kalite kontrol, malzeme bilimi ve süreç mühendisliği konularında akademik ve endüstriyel deneyime sahibim. Ejot Tezmak firmasında gerçekleştirdiğim stajımda üretimin farklı aşamalarında aktif olarak görev aldım. Endüstride teorik bilginin nasıl uygulandığını gözlemleyerek kendimi bu alanda geliştirdim.</p>
     </div>
   </section>
 
   <section id="internships">
-    <h2>Stajlarım</h2>
+    <h2 id="intern-title">Stajlarım</h2>
     <div class="card">
       <h3>
-        <a href="https://www.ejot-tezmak.com/" target="_blank" style="color: var(--text); text-decoration: none;">
+        <a href="https://www.ejot-tezmak.com/" target="_blank" style="color: inherit; text-decoration: none;">
           Ejot Tezmak Bağlantı Elemanları A.Ş.
         </a>
       </h3>
       <p>
-        <strong>Tarih:</strong> 24.06.2024 - 05.08.2024<br />
-        <strong>Bölüm:</strong> Kalite
+        <strong id="label-date">Tarih:</strong> 24.06.2024 - 05.08.2024<br />
+        <strong id="label-dept">Bölüm:</strong> Kalite
       </p>
-      <p>
+      <p id="intern-desc">
         Kalite kontrol süreçlerinde görev aldım. Hammadde kabulü, başlık oluşturma, diş açma, ısıl işlem, kaplama ve son kontrol gibi üretim aşamalarında aktif rol aldım. Kalite departmanındaki süreçlerin tümüne dair gözlem ve uygulamalarda bulundum.
       </p>
     </div>
@@ -196,5 +202,63 @@
   <footer>
     <p>&copy; 2025 Muhammed Eren Balıbey | Tüm hakları saklıdır.</p>
   </footer>
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const current = body.classList.contains("dark") ? "dark" : "light";
+      const next = current === "light" ? "dark" : "light";
+      body.classList.remove(current);
+      body.classList.add(next);
+      localStorage.setItem("theme", next);
+    }
+
+    function changeColor(color) {
+      document.documentElement.style.setProperty('--main-color', color);
+      document.documentElement.style.setProperty('--hover-color', darkenColor(color, 20));
+      localStorage.setItem("color", color);
+    }
+
+    function darkenColor(hex, percent) {
+      const num = parseInt(hex.slice(1),16),
+        amt = Math.round(2.55 * percent),
+        R = (num >> 16) - amt,
+        G = (num >> 8 & 0x00FF) - amt,
+        B = (num & 0x0000FF) - amt;
+      return "#" + (0x1000000 + 
+        (R < 255 ? (R < 1 ? 0 : R) : 255)*0x10000 + 
+        (G < 255 ? (G < 1 ? 0 : G) : 255)*0x100 + 
+        (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1);
+    }
+
+    function changeLanguage(lang) {
+      if (lang === "en") {
+        document.getElementById("nav-about").textContent = "About";
+        document.getElementById("nav-intern").textContent = "Internships";
+        document.getElementById("about-title").textContent = "About Me";
+        document.getElementById("about-text").innerHTML = `<p>I am Muhammed Eren Balıbey, a Mechanical Engineering student at Abdullah Gül University. I have academic and industrial experience in production, quality control, materials science, and process engineering. During my internship at Ejot Tezmak, I actively participated in various stages of production. Observing the practical application of theoretical knowledge helped me grow in this field.</p>`;
+        document.getElementById("intern-title").textContent = "My Internships";
+        document.getElementById("label-date").textContent = "Date:";
+        document.getElementById("label-dept").textContent = "Department:";
+        document.getElementById("intern-desc").textContent = "I took part in quality control processes including raw material inspection, heading, threading, heat treatment, coating, and final control. I observed and contributed to all steps within the quality department.";
+        document.getElementById("uni-text").innerHTML = `Mechanical Engineering Student | <a href="https://w3.agu.edu.tr/" target="_blank" style="color: white; text-decoration: none;">Abdullah Gül University</a>`;
+      } else {
+        location.reload(); // sayfayı Türkçe'ye sıfırla
+      }
+    }
+
+    // Load saved preferences
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme");
+      const savedColor = localStorage.getItem("color");
+      if (savedTheme) {
+        document.body.classList.remove("light", "dark");
+        document.body.classList.add(savedTheme);
+      }
+      if (savedColor) {
+        changeColor(savedColor);
+      }
+    };
+  </script>
 </body>
 </html>
