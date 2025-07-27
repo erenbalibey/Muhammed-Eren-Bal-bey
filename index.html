@@ -34,6 +34,7 @@
       padding: 30px 20px;
       text-align: center;
       position: relative;
+      padding-right: 140px; /* sabit kontroller için alan */
     }
 
     .profile-pic {
@@ -103,11 +104,14 @@
     }
 
     .controls {
-      margin-top: 20px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
       display: flex;
-      justify-content: center;
-      gap: 20px;
+      gap: 10px;
       flex-wrap: wrap;
+      justify-content: flex-end;
+      z-index: 1000;
     }
 
     select, button {
@@ -116,6 +120,7 @@
       border: none;
       font-weight: bold;
       cursor: pointer;
+      font-size: 0.9em;
     }
 
     footer {
@@ -129,6 +134,7 @@
     @media screen and (max-width: 600px) {
       header {
         padding-top: 20px;
+        padding-right: 20px;
       }
 
       .profile-pic {
@@ -145,12 +151,31 @@
       header p {
         font-size: 1em;
       }
+
+      .controls {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+      }
     }
   </style>
 </head>
 
 <body class="light">
   <header>
+    <div class="controls">
+      <button onclick="toggleTheme()">🌙 / ☀️</button>
+      <select onchange="changeColor(this.value)">
+        <option value="#1abc9c">Yeşil</option>
+        <option value="#3498db">Mavi</option>
+        <option value="#e74c3c">Kırmızı</option>
+        <option value="#9b59b6">Mor</option>
+      </select>
+      <select onchange="changeLanguage(this.value)">
+        <option value="tr">Türkçe</option>
+        <option value="en">English</option>
+      </select>
+    </div>
     <img src="profil.jpg" alt="Profil Fotoğrafı" class="profile-pic" />
     <h1>Muhammed Eren Balıbey</h1>
     <p id="uni-text">Makine Mühendisliği Öğrencisi | 
@@ -163,19 +188,6 @@
       <a href="https://www.linkedin.com/in/muhammederenbalibey/" target="_blank"><i class="fab fa-linkedin"></i></a>
       <a href="https://github.com/erenbalibey" target="_blank"><i class="fab fa-github"></i></a>
       <a href="https://www.instagram.com/erenblby/?hl=tr" target="_blank"><i class="fab fa-instagram"></i></a>
-    </div>
-    <div class="controls">
-      <button onclick="toggleTheme()">🌙 / ☀️ Tema Değiştir</button>
-      <select onchange="changeColor(this.value)">
-        <option value="#1abc9c">Yeşil</option>
-        <option value="#3498db">Mavi</option>
-        <option value="#e74c3c">Kırmızı</option>
-        <option value="#9b59b6">Mor</option>
-      </select>
-      <select onchange="changeLanguage(this.value)">
-        <option value="tr">Türkçe</option>
-        <option value="en">English</option>
-      </select>
     </div>
   </header>
 
@@ -231,14 +243,16 @@
 
     function darkenColor(hex, percent) {
       const num = parseInt(hex.slice(1),16),
-        amt = Math.round(2.55 * percent),
-        R = (num >> 16) - amt,
-        G = (num >> 8 & 0x00FF) - amt,
-        B = (num & 0x0000FF) - amt;
-      return "#" + (0x1000000 +
-        (R < 255 ? (R < 1 ? 0 : R) : 255)*0x10000 +
-        (G < 255 ? (G < 1 ? 0 : G) : 255)*0x100 +
-        (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1);
+            amt = Math.round(2.55 * percent),
+            R = (num >> 16) - amt,
+            G = (num >> 8 & 0x00FF) - amt,
+            B = (num & 0x0000FF) - amt;
+      return "#" + (
+        0x1000000 +
+        (R<255?(R<1?0:R):255)*0x10000 +
+        (G<255?(G<1?0:G):255)*0x100 +
+        (B<255?(B<1?0:B):255)
+      ).toString(16).slice(1);
     }
 
     function changeLanguage(lang) {
