@@ -37,14 +37,12 @@
     }
 
     .profile-pic {
-      position: absolute;
-      top: 20px;
-      right: 20px;
       width: 80px;
       height: 80px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid white;
+      margin-bottom: 10px;
     }
 
     nav {
@@ -129,11 +127,23 @@
     }
 
     @media screen and (max-width: 600px) {
+      header {
+        padding-top: 20px;
+      }
+
       .profile-pic {
+        display: block;
+        margin: 0 auto 10px auto;
         width: 60px;
         height: 60px;
-        top: 15px;
-        right: 15px;
+      }
+
+      header h1 {
+        font-size: 1.4em;
+      }
+
+      header p {
+        font-size: 1em;
       }
     }
   </style>
@@ -225,9 +235,9 @@
         R = (num >> 16) - amt,
         G = (num >> 8 & 0x00FF) - amt,
         B = (num & 0x0000FF) - amt;
-      return "#" + (0x1000000 + 
-        (R < 255 ? (R < 1 ? 0 : R) : 255)*0x10000 + 
-        (G < 255 ? (G < 1 ? 0 : G) : 255)*0x100 + 
+      return "#" + (0x1000000 +
+        (R < 255 ? (R < 1 ? 0 : R) : 255)*0x10000 +
+        (G < 255 ? (G < 1 ? 0 : G) : 255)*0x100 +
         (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1);
     }
 
@@ -243,11 +253,10 @@
         document.getElementById("intern-desc").textContent = "I took part in quality control processes including raw material inspection, heading, threading, heat treatment, coating, and final control. I observed and contributed to all steps within the quality department.";
         document.getElementById("uni-text").innerHTML = `Mechanical Engineering Student | <a href="https://w3.agu.edu.tr/" target="_blank" style="color: white; text-decoration: none;">Abdullah Gül University</a>`;
       } else {
-        location.reload(); // sayfayı Türkçe'ye sıfırla
+        location.reload();
       }
     }
 
-    // Load saved preferences
     window.onload = () => {
       const savedTheme = localStorage.getItem("theme");
       const savedColor = localStorage.getItem("color");
